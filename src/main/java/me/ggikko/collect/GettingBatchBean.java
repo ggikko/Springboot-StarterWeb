@@ -1,7 +1,5 @@
 package me.ggikko.collect;
 
-import org.bitbucket.eunjeon.seunjeon.Analyzer;
-import org.bitbucket.eunjeon.seunjeon.TermNode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,10 +19,10 @@ import java.util.List;
 @Component
 public class GettingBatchBean {
 
-    private static String url = "http://cafeblog.search.naver.com/search.naver?where=post&sm=tab_pge&query=%EA%B0%95%EB%82%A8+%ED%9A%8C%EC%82%AC+%EC%A1%B4%EB%A7%9B&st=sim&date_option=0&date_from=&date_to=&dup_remove=1&post_blogurl=&post_blogurl_without=&srchby=all&nso=&ie=utf8&start=11";
-    private static String url2 = "http://cafeblog.search.naver.com/search.naver?where=post&sm=tab_pge&query=%EA%B0%95%EB%82%A8+%ED%9A%8C%EC%82%AC+%EC%A0%90%EC%8B%AC&st=sim&date_option=0&date_from=&date_to=&dup_remove=1&post_blogurl=&post_blogurl_without=&srchby=all&nso=&ie=utf8&start=1";
+    private static String url = "http://cafeblog.search.naver.com/search.naver?where=post&sm=tab_pge&query=강남+회사+점심&st=sim&date_option=0&date_from=&date_to=&dup_remove=1&post_blogurl=&post_blogurl_without=&srchby=all&nso=&ie=utf8&start=11";
+    private static String url2 = "http://cafeblog.search.naver.com/search.naver?where=post&sm=tab_pge&query=강남+회사+점심&st=sim&date_option=0&date_from=&date_to=&dup_remove=1&post_blogurl=&post_blogurl_without=&srchby=all&nso=&ie=utf8&start=1";
     private static String agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36";
-
+    private static String url3 = "http://cafeblog.search.naver.com/search.naver?sm=tab_hty.top&where=post&ie=utf8&query=%EC%84%A0%EB%A6%89+%ED%9A%8C%EC%82%AC+6000%EC%9B%90";
 
     private static String Accept = "Accept";
     private static String Accept_Value = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
@@ -43,7 +41,6 @@ public class GettingBatchBean {
     private static String User_Agent = "User-Agent";
     private static String User_Agent_Value = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36";
 
-
     @Autowired
     CollectRepository collectRepository;
 
@@ -51,58 +48,65 @@ public class GettingBatchBean {
    @Scheduled(cron = "*/20 * * * * *")
     public void inputData() {
 
-        try {
-            Document doc = Jsoup.connect(url2)
-                    .header(Accept, Accept_Value)
-                    .header(Accept_Encoding, Accept_Encoding_Value)
-                    .header(Accept_Language, Accept_Language_Value)
-                    .header(Connection, Connection_Value)
-                    .header(Cookie, Cookie_Value)
-                    .header(Host, Host_Value)
-                    .header(Upgrade_Insecure_Requests, Upgrade_Insecure_Requests_Value)
-                    .header(User_Agent, User_Agent_Value)
-                    .get();
-
-            //엘리먼트들을 가져온다
-            Elements elementsByClass = doc.select("a.sh_blog_title");
-
-
-            for (Element element : elementsByClass) {
-
-                ArrayList<String> list = new ArrayList<String>();
-                String title = element.attr("title");
-                List<TermNode> result = Analyzer.parseJava(title);
-                for (int i = 0; i < result.size(); i++) {
-                    list.add(result.get(i).term().surface());
-                }
-
-
-                for (int i = 0; i < list.size(); i++) {
-
-                    //System.out.printf(list.get(i) + "//");
-                }
-
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //특수문자 제거
-        String str ="테####스!트@#";
-        StringBuffer sb = new StringBuffer();
-
-        for(int i=0 ; i< str .length(); i++)
-        {
-            if(Character.isLetterOrDigit(str .charAt(i))) sb.append(str .charAt(i));
-        }
-        System.out.printf(sb.toString());
-
+//        try {
 //
-//        CollectInfo collectInfo = new CollectInfo();
-//        collectInfo.setUrl("http://ggikko.com");
-//        collectInfo.setHtmlInfo("hello");
-//        collectRepository.save(collectInfo);
+//            Document doc = Jsoup.connect(url3)
+//                    .header(Accept, Accept_Value)
+////                    .header(Accept_Encoding, Accept_Enxcoding_Value)
+////                    .header(Accept_Language, Accept_Language_Value)
+////                    .header(Connection, Connection_Value)
+////                    .header(Cookie, Cookie_Value)
+////                    .header(Host, Host_Value)
+////                    .header(Upgrade_Insecure_Requests, Upgrade_Insecure_Requests_Value)
+////                    .header(User_Agent, User_Agent_Value)
+//                    .get();
+//
+//            //엘리먼트들을 가져온다
+////            Document doc = Jsoup.connect(url2).get();
+//            Elements elementsByClass = doc.select("a.sh_blog_title");
+//
+//            for (Element element : elementsByClass) {
+//
+//                ArrayList<String> list = new ArrayList<String>();
+//                String title = element.attr("title");
+//                list.add(title);
+////                List<TermNode> result = Analyzer.parseJava(title);
+////                for (int i = 0; i < result.size(); i++) {
+////                    list.add(result.get(i).term().surface());
+////                }
+//
+//
+//                for (int i = 0; i < list.size(); i++) {
+//
+//                    System.out.printf(list.get(i) + "//");
+//                }
+//
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        //특수문자 제거
+//        String str ="테####스!트@#";
+//        StringBuffer sb = new StringBuffer();
+//
+//        for(int i=0 ; i< str .length(); i++)
+//        {
+//            if(Character.isLetterOrDigit(str .charAt(i))) sb.append(str .charAt(i));
+//        }
+//
+//       String str2 = "하하 로로 이이 ";
+//       String trim = str2.trim();
+//       //하하로로이이
+//
+//       System.out.printf(sb.toString());
+//
+////
+////        CollectInfo collectInfo = new CollectInfo();
+////        collectInfo.setUrl("http://ggikko.com");
+////        collectInfo.setHtmlInfo("hello");
+////        collectRepository.save(collectInfo);
 
     }
 }
